@@ -10,19 +10,12 @@ config_version: '2024-02-05'
 schema_list:
   # 可以直接删除或注释不需要的方案，对应的 *.schema.yaml 方案文件也可以直接删除
   # 除了 t9，它依赖于 rime_ice，用九宫格别删 rime_ice.schema.yaml
-  - schema: rime_ice               # 雾凇拼音（全拼）
-  - schema: t9                     # 九宫格（仓输入法）
-  - schema: double_pinyin          # 自然码双拼
   - schema: double_pinyin_abc      # 智能 ABC 双拼
-  - schema: double_pinyin_mspy     # 微软双拼
-  - schema: double_pinyin_sogou    # 搜狗双拼
-  - schema: double_pinyin_flypy    # 小鹤双拼
-  - schema: double_pinyin_ziguang  # 紫光双拼
 
 
 # 菜单
 menu:
-  page_size: 5  # 候选词个数
+  page_size: 7  # 候选词个数
   # alternative_select_labels: [ ①, ②, ③, ④, ⑤, ⑥, ⑦, ⑧, ⑨, ⑩ ]  # 修改候选项标签
   # alternative_select_keys: ASDFGHJKL  # 如编码字符占用数字键，则需另设选字键（注意在雾凇中，大写字母也作为编码了）
 
@@ -65,7 +58,7 @@ ascii_composer:
   switch_key:
     Caps_Lock: clear      # commit_code | commit_text | clear
     Shift_L: commit_code  # commit_code | commit_text | inline_ascii | clear | noop
-    Shift_R: noop         # commit_code | commit_text | inline_ascii | clear | noop
+    Shift_R: commit_code  # commit_code | commit_text | inline_ascii | clear | noop
     Control_L: noop       # commit_code | commit_text | inline_ascii | clear | noop
     Control_R: noop       # commit_code | commit_text | inline_ascii | clear | noop
 
@@ -128,7 +121,7 @@ punctuator:
     '?' : '？'
     ';' : '；'
     ':' : '：'
-    '''' : { pair: [ '‘', '’' ] }
+    '''' : ''''
     '"' : { pair: [ '“', '”' ] }
     '\' : '、'
     '|' : '|'
@@ -138,20 +131,20 @@ punctuator:
     '@' : '@'
     '#' : '#'
     '%' : '%'
-    '$' : '¥'
+    '$' : '$'
     '^' : '……'
     '&' : '&'
     '*' : '*'
     '(' : '（'
     ')' : '）'
     '-' : '-'
-    '_' : ——
+    '_' : '_'
     '+' : '+'
     '=' : '='
-    '[' : '【'
-    ']' : '】'
-    '{' : '「'
-    '}' : '」'
+    '[' : '['
+    ']' : ']'
+    '{' : '{'
+    '}' : '}'
 
 
 # 处理符合特定规则的输入码，如网址、反查
@@ -183,13 +176,9 @@ key_binder:
     - { when: composing, accept: Alt+Left, send: Shift+Left }
     - { when: composing, accept: Alt+Right, send: Shift+Right }
 
-    # 翻页 - =
-    - { when: has_menu, accept: minus, send: Page_Up }  # 上一页设置为 paging 时会导致直接上屏并输出减号
-    - { when: has_menu, accept: equal, send: Page_Down }
-
     # 翻页 , .
-    # - { when: paging, accept: comma, send: Page_Up }
-    # - { when: has_menu, accept: period, send: Page_Down }
+    - { when: paging, accept: comma, send: Page_Up }
+    - { when: has_menu, accept: period, send: Page_Down }
 
     # 翻页 [ ]  ⚠️ 开启时请修改上面以词定字的快捷键
     # - { when: paging, accept: bracketleft, send: Page_Up }
